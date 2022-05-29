@@ -1,0 +1,40 @@
+@import "../../styles/vars.scss";
+
+.CardAnim {
+    margin-top: 5rem;
+
+    .smCard {
+        top: 100px;
+        position: absolute;
+        width: 200px;
+        height: 300px;
+        border-color: $shadow;
+        // border-width: 1px;
+        box-shadow: $shadow 0px 5px 15px;
+        border-radius: 20px;
+        // display: inline;
+        text-align: center;
+        background-color: white;
+        align-items: center;
+        transform: rotateX(60deg) rotateZ(15deg);
+        // margin-bottom: -200px;
+    }
+
+    .layertop {
+    
+        z-index: 99990;
+    }
+
+    .buttonStyle {
+        // outline: 0;
+        // border: none;
+        border: 1px, solid, rgb(193, 242, 249) !important;
+        width: 150px;
+        height: 50px;
+        margin-top: 10px;
+        border-radius: 15px;
+        background-color: rgb(193, 242, 249);
+    }
+
+
+}
