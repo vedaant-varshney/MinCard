@@ -32,7 +32,6 @@ function CardAnim({className}: Props) {
             <div ref={cardOne} className={styles.smCard}><h1>This is the first Card</h1></div>
             <div ref={cardTwo} className={styles.smCard}><h1>This is the second Card</h1></div>
             <div ref={cardThree} className={styles.smCard}><h1>This is the third Card</h1></div>
-            {/* <div className={classnames(styles.smCard, styles.layertop)}><h1>Text</h1></div> */}
             <button className={styles.buttonStyle} onClick={animation}>Trigger Animation</button>
         </div>
     );

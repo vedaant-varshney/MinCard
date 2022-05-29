@@ -1,6 +1,6 @@
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useState, useRef } from "react";
 import classnames from 'classnames';
-import { $getRoot, $getSelection, EditorState } from 'lexical';
+import { $getRoot, $getSelection, EditorState, LexicalEditor } from 'lexical';
 
 import LexicalComposer from '@lexical/react/LexicalComposer';
 // import LexicalPlainTextPlugin from '@lexical/react/LexicalPlainTextPlugin';
@@ -16,10 +16,22 @@ import styles from './SampleCard.module.scss';
 
 const theme = {
     // Theme styling goes here
-
 }
 
 
+interface ReadOnlyProps {
+    isReadOnly: boolean
+}
+
+function MakeReadOnly({ isReadOnly }: ReadOnlyProps) {
+
+    const [editor] = useLexicalComposerContext();
+    useEffect(() => {
+        editor.setReadOnly(isReadOnly)
+    },
+    [isReadOnly])
+    return null;
+}
 // Lexical React plugins are React components, which makes them
 // highly composable. Furthermore, you can lazy load plugins if
 // desired, so you don't pay the cost for plugins until you
@@ -57,7 +69,8 @@ function SampleCard({ className }: Props) {
     }
 
     const editorStateRef = useRef<EditorState>();
-    
+    // const [editor] = useLexicalComposerContext();
+    const [readOnly, setReadOnly] = useState(false);
 
     return (
         <div className={classnames(styles.SampleCard, className)}>
@@ -66,16 +79,18 @@ function SampleCard({ className }: Props) {
             <LexicalComposer initialConfig={initialConfig}>
                 <div className={styles.editor}>
                     <RichTextPlugin
-                        placeholder={<Placeholder/>}
+                        placeholder={<Placeholder />}
                         contentEditable={<LexicalContentEditable className={styles.editorInput} />}
                     />
                     <LexicalOnChangePlugin onChange={editorState => editorStateRef.current = editorState} />
                     <HistoryPlugin />
                     <MyCustomAutoFocusPlugin />
+                    <MakeReadOnly isReadOnly={readOnly} />
 
                 </div>
             </LexicalComposer>
             <button onClick={() => console.log(JSON.stringify(editorStateRef.current))}>Submit</button>
+            <button onClick={() => setReadOnly(!readOnly)}>Read-Only</button>
         </div>
     );
 }
