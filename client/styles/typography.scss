@@ -18,3 +18,13 @@
 @mixin nav-search($color) {
     @include typography($weight: 300, $size: 24px, $color: $color)
 }
+
+@mixin card-heading($color) {
+
+    @include typography($weight: 700, $size: 2rem, $color: $color)
+}
+
+// The placeholder text will be the same but with a different color
+@mixin editor-text($color) {
+    @include typography($weight: 400, $size: 1rem, $color: $color, $line-height: 1.2rem)
+}
