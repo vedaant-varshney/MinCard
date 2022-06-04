@@ -1,11 +1,12 @@
 @import '../../styles/vars.scss';
-
+@import '../../styles/typography.scss';
 
 .SampleCard {
+    position: absolute;
     margin-top: 2rem;
     width: 500px;
-    height: 800px;
-    border-radius: 10px;
+    height: 700px;
+    border-radius: 20px;
     box-shadow: $shadow 0px 5px 15px;
     display: inline;
     text-align: center;
@@ -13,46 +14,84 @@
     // justify-content: left;
     align-items: center;
     background-color: $white;
+    border: 1px solid rgba(0, 0, 0, 0.06);
 
     .editor {
         text-align: left;
         margin: auto;
         position: relative;
-        width: 450px;
-        height: 500px;
-        background-color: $light-gray;
-        border-radius: 10px;
+        width: 470px;
+        height: 600px;
+        background: $white;
+        border: 2px solid rgba(0, 0, 0, 0.06);
+        border-radius: 20px;
 
         margin-bottom: 1rem;
     }
 
     .editorPlaceholder {
         // padding: 0;
-        color: #999;
+        @include editor-text($color: $black);
+        color: $placeholder-text;
         overflow: hidden;
         position: absolute;
-        top: 15px;
-        left: 10px;
+        top: 1rem;
+        left: 15px;
         user-select: none;
-        font-size: 15px;
+        // font-size: 15px;
         pointer-events: none;
     }
 
     .editorInput {
+        width: 440px;
         position: relative;
         font-size: 15px;
-        // padding: 10px 10px;
-        top: 15px;
-        left: 10px;
+        left: 15px;
         outline-width: 0;
         border: none;
         resize: none;
         height: 100%;
+        @include editor-text($color: $black);
+    }
+    
+    .cardTitle {
+        position: relative;
+        left: 30px;
+        text-align: left;
+        margin-top: 1rem;
+        margin-bottom: 1.3rem;
+        @include card-heading($color: $black);
+    }
+
+    .sideButtons {
+        position: absolute;
+        top: 10px;
+        left: 530px
+    }
+
+    .blackButton {
+        border-radius: 100%;
+        background-color: $dark-gray;
+        width: 65px;
+        height: 65px;
+        margin-bottom: 20px;
+
+    }
+
+    .buttonIcons {
+        position: relative;
+        top: 14px;
+        left: 1px;
+        // position: absolute;
+        // left: 7;
+        width: 35px;
+        height: 35px;
     }
 
     h1 {
         margin: 0;
     }
+
     h2 {
         margin: 0;
     }

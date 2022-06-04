@@ -10,7 +10,8 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import LexicalOnChangePlugin from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
-
+import EditIcon from '@assets/images/pen-to-square-solid.svg';
+import SaveIcon from '@assets/images/floppy-disk-solid.svg';
 
 import styles from './SampleCard.module.scss';
 
@@ -74,8 +75,7 @@ function SampleCard({ className }: Props) {
 
     return (
         <div className={classnames(styles.SampleCard, className)}>
-            <h1>Sample Min Card</h1>
-            <h2>Bingo Bongo</h2>
+            <h1 className={styles.cardTitle}>Card Title</h1>
             <LexicalComposer initialConfig={initialConfig}>
                 <div className={styles.editor}>
                     <RichTextPlugin
@@ -89,8 +89,17 @@ function SampleCard({ className }: Props) {
 
                 </div>
             </LexicalComposer>
-            <button onClick={() => console.log(JSON.stringify(editorStateRef.current))}>Submit</button>
-            <button onClick={() => setReadOnly(!readOnly)}>Read-Only</button>
+            {/* <button onClick={() => console.log(JSON.stringify(editorStateRef.current))}>Submit</button>
+            <button onClick={() => setReadOnly(!readOnly)}>Read-Only</button> */}
+            <div className={styles.sideButtons}>
+                <div onClick={() => setReadOnly(!readOnly)} className={styles.blackButton}>
+                    <EditIcon className={styles.buttonIcons}/>
+                </div>
+
+                <div onClick={() => console.log(JSON.stringify(editorStateRef.current))} className={styles.blackButton}>
+                    <SaveIcon className={styles.buttonIcons}/>
+                </div>
+            </div>
         </div>
     );
 }
