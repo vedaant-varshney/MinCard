@@ -16,23 +16,44 @@
         display: flex;
         height: 60px;
         width: 80%;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
         // line-height: 60px;
     }
+
     .search {
-
+        display: flex;
         background-color: #F8F8F8;
-
         padding-left: 30px;
-        @include nav-search($dark-gray); 
-        line-height: 40px;
-        // text-align: center;
+        padding-right: 30px;
+        @include nav-search($dark-gray);
+        // line-height: 40px;
+        align-items: center;
+        justify-content: space-between; 
         height: 40px;
         width: 540px;
         border-radius: 10px;
     }
 
+    .logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 20px;
+    }
+
+    .leftMenu {
+        display: flex;
+        @include general-paragraph($color: $white);
+        align-items: center;
+        width: 500px;
+        height: 60px;
+    }
+
+    .rightMenu {
+        @include general-paragraph($white);
+        width: 500px;
+        text-align: right;
+    }
 
 
 }

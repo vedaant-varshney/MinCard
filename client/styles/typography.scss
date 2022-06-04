@@ -12,12 +12,9 @@
 
 
 @mixin general-paragraph($color, $line-height: "normal") {
-    color: $color;
-    @include typography(400, 1.2rem, $line-height);   
-
+    @include typography(400, 1.2rem, $line-height, $color: $color);   
 }
 
 @mixin nav-search($color) {
-    color: $color;
     @include typography($weight: 300, $size: 24px, $color: $color)
 }
