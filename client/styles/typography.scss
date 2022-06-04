@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+
+
+// For now since we're building this for a desktop screen, there are no variable sizes
+@mixin typography($weight: 400, $size: 1rem, $line-height: "normal", $color: black ) {
+    font-family: 'Lato', sans-serif;
+    font-weight: $weight;
+    font-size: $size;
+    line-height: $line-height;
+    color: $color;
+}
+
+
+@mixin general-paragraph($color, $line-height: "normal") {
+    color: $color;
+    @include typography(400, 1.2rem, $line-height);   
+
+}
+
+@mixin nav-search($color) {
+    color: $color;
+    @include typography($weight: 300, $size: 24px, $color: $color)
+}
