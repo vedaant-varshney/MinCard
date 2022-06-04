@@ -1,0 +1,7 @@
+// NOTE: This file is for mixins to add ease to the page layout process
+
+// NOTE: Padding for components in general
+@mixin global-padding {
+   padding-left: 1rem; 
+   padding-right: 1rem;
+};
