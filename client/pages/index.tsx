@@ -5,6 +5,7 @@ import styles from '@styles/Home.module.scss'
 import SampleCard from '@components/SampleCard/SampleCard'
 import CardAnim from '@components/CardAnim/CardAnim'
 import Navbar from '@components/Navbar/Navbar'
+import CardCarousel from '@components/CardCarousel/CardCarousel'
 
 const Home: NextPage = () => {
   return (
@@ -17,7 +18,8 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <Navbar/>
-        <SampleCard/>
+        <CardCarousel/>
+        {/* <SampleCard/> */}
         {/* <CardAnim/> */}
       </main>
 

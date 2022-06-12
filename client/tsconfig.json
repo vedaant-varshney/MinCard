@@ -21,6 +21,7 @@
       "@scripts/*": ["./scripts/*"],
       "@public/*": ["./public/*"],
       "@assets/*": ["./assets/*"],
+      "@hooks/*": ["./hooks/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
