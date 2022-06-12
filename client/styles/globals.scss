@@ -1,6 +1,10 @@
 @import './vars.scss';
 
-html,
+html {
+
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
 body {
   // background-color: $dark-gray;
   padding: 0;
