@@ -1,7 +1,16 @@
+import { EditorState } from 'lexical';
 import {useRef} from 'react';
 
-export function useArrayRef() {
-    const refs = useRef<HTMLDivElement[]>([]);
+export function useArrayDivRef() {
+    const refs = useRef<HTMLDivElement[] | null[]>([]);
     refs.current = [];
-    return [refs, (ref: any | never) => ref && refs.current.push(ref)]
+    return [refs];
+    // return [refs, (ref: any | never) => ref && refs.current.push(ref)]
+}
+
+export function useArrayEditorRef() {
+    const refs = useRef<EditorState[]>([]);
+    refs.current = [];
+    return [refs];
+
 }

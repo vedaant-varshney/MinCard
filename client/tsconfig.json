@@ -22,6 +22,8 @@
       "@public/*": ["./public/*"],
       "@assets/*": ["./assets/*"],
       "@hooks/*": ["./hooks/*"],
+      "@data/*": ["./data/*"],
+      "@utils/*": ["./utils/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

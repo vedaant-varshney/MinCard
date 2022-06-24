@@ -123,22 +123,6 @@ function SampleCard({ className }: Props) {
                 </div>
             </div>
 
-            {/* <div className={classnames(styles.SampleCard, className)}>
-                <h1 className={styles.cardTitle}>Card Title</h1>
-                <LexicalComposer initialConfig={initialConfig}>
-                    <div className={styles.editor}>
-                        <RichTextPlugin
-                            placeholder={<Placeholder />}
-                            contentEditable={<LexicalContentEditable className={styles.editorInput} />}
-                        />
-                        <LexicalOnChangePlugin onChange={editorState => editorStateRef.current = editorState} />
-                        <HistoryPlugin />
-                        <MyCustomAutoFocusPlugin />
-                        <UpdateEditorState editorState={editorSample} />
-
-                    </div>
-                </LexicalComposer>
-            </div> */}
 
 
         </>
