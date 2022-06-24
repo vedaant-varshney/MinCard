@@ -75,7 +75,13 @@
         width: 65px;
         height: 65px;
         margin-bottom: 20px;
+        transition: background-color 0.2s;
+        cursor: pointer;
 
+    }
+
+    .blackButton:hover {
+        background-color: #444;
     }
 
     .buttonIcons {

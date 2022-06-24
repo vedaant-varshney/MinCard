@@ -30,7 +30,7 @@ function MakeReadOnly({ isReadOnly }: ReadOnlyProps) {
     useEffect(() => {
         editor.setReadOnly(isReadOnly)
     },
-    [isReadOnly])
+        [isReadOnly])
     return null;
 }
 // Lexical React plugins are React components, which makes them
@@ -44,6 +44,25 @@ function MyCustomAutoFocusPlugin() {
         // Focus the editor when the effect fires!
         editor.focus();
     }, [editor]);
+
+    return null;
+}
+
+
+interface UpdateEditorStateProps {
+    editorState: EditorState | undefined
+}
+
+function UpdateEditorState({ editorState }: UpdateEditorStateProps) {
+    const [editor] = useLexicalComposerContext();
+
+    useEffect(() => {
+        if (editorState !== undefined) {
+            console.log(JSON.stringify(editorState))
+            editor.parseEditorState(JSON.stringify(editorState))
+            editor.setEditorState(editorState)
+        }
+    }, [editorState])
 
     return null;
 }
@@ -64,6 +83,8 @@ function Placeholder() {
 
 function SampleCard({ className }: Props) {
 
+    const [editorSample, setEditorSample] = useState<EditorState | undefined>();
+
     const initialConfig = {
         theme,
         onError
@@ -74,33 +95,53 @@ function SampleCard({ className }: Props) {
     const [readOnly, setReadOnly] = useState(false);
 
     return (
-        <div className={classnames(styles.SampleCard, className)}>
-            <h1 className={styles.cardTitle}>Card Title</h1>
-            <LexicalComposer initialConfig={initialConfig}>
-                <div className={styles.editor}>
-                    <RichTextPlugin
-                        placeholder={<Placeholder />}
-                        contentEditable={<LexicalContentEditable className={styles.editorInput} />}
-                    />
-                    <LexicalOnChangePlugin onChange={editorState => editorStateRef.current = editorState} />
-                    <HistoryPlugin />
-                    <MyCustomAutoFocusPlugin />
-                    <MakeReadOnly isReadOnly={readOnly} />
+        <>
+            <div className={classnames(styles.SampleCard, className)}>
+                <h1 className={styles.cardTitle}>Card Title</h1>
+                <LexicalComposer initialConfig={initialConfig}>
+                    <div className={styles.editor}>
+                        <RichTextPlugin
+                            placeholder={<Placeholder />}
+                            contentEditable={<LexicalContentEditable className={styles.editorInput} />}
+                        />
+                        <LexicalOnChangePlugin onChange={editorState => editorStateRef.current = editorState} />
+                        <HistoryPlugin />
+                        <MyCustomAutoFocusPlugin />
+                        <MakeReadOnly isReadOnly={readOnly} />
 
-                </div>
-            </LexicalComposer>
-            {/* <button onClick={() => console.log(JSON.stringify(editorStateRef.current))}>Submit</button>
+                    </div>
+                </LexicalComposer>
+                {/* <button onClick={() => console.log(JSON.stringify(editorStateRef.current))}>Submit</button>
             <button onClick={() => setReadOnly(!readOnly)}>Read-Only</button> */}
-            <div className={styles.sideButtons}>
-                <div onClick={() => setReadOnly(!readOnly)} className={styles.blackButton}>
-                    <EditIcon className={styles.buttonIcons}/>
-                </div>
-
-                <div onClick={() => console.log(JSON.stringify(editorStateRef.current))} className={styles.blackButton}>
-                    <SaveIcon className={styles.buttonIcons}/>
+                <div className={styles.sideButtons}>
+                    <div onClick={() => setReadOnly(!readOnly)} className={styles.blackButton}>
+                        <EditIcon className={styles.buttonIcons} />
+                    </div>
+                    <div onClick={() => {console.log(JSON.stringify(editorStateRef.current)); setEditorSample(editorStateRef.current)}} className={styles.blackButton}>
+                        <SaveIcon className={styles.buttonIcons} />
+                    </div>
                 </div>
             </div>
-        </div>
+
+            {/* <div className={classnames(styles.SampleCard, className)}>
+                <h1 className={styles.cardTitle}>Card Title</h1>
+                <LexicalComposer initialConfig={initialConfig}>
+                    <div className={styles.editor}>
+                        <RichTextPlugin
+                            placeholder={<Placeholder />}
+                            contentEditable={<LexicalContentEditable className={styles.editorInput} />}
+                        />
+                        <LexicalOnChangePlugin onChange={editorState => editorStateRef.current = editorState} />
+                        <HistoryPlugin />
+                        <MyCustomAutoFocusPlugin />
+                        <UpdateEditorState editorState={editorSample} />
+
+                    </div>
+                </LexicalComposer>
+            </div> */}
+
+
+        </>
     );
 }
 
