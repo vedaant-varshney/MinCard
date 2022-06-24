@@ -9,13 +9,14 @@ import useWindowSize from "@hooks/useWindowSize";
 import { $getRoot, $getSelection, EditorState, LexicalEditor } from 'lexical';
 
 import LexicalComposer from '@lexical/react/LexicalComposer';
+// import LexicalPlainTextPlugin from '@lexical/react/LexicalPlainTextPlugin';
 import RichTextPlugin from '@lexical/react/LexicalRichTextPlugin'
 import LexicalContentEditable from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import LexicalOnChangePlugin from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useArrayDivRef, useArrayEditorRef } from "@hooks/useArrayRef";
-import MakeReadOnly from "@components/plugins/MakeReadOnly";
+// import MakeReadOnly from "./MakeReadOnly";
 
 
 export type Props = {
@@ -28,7 +29,8 @@ function CardCarousel({ className }: Props) {
     const [editorRefs] = useArrayEditorRef();
     let width = useWindowSize();
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const [order, setOrder] = useState([4, 2, 1, 3, 5])
+    // const [order, setOrder] = useState([4, 2, 1, 3, 5])
+    const [order, setOrder] = useState([2, 1, 3, 5, 4])
 
     const distanceFromEdgeBottomM = "-40%";
     const distanceFromEdgeLR = "5%";
@@ -37,6 +39,9 @@ function CardCarousel({ className }: Props) {
     const offscreenDistanceFromEdgeLR = "-20%";
 
 
+
+    // [4, 2, 1, 3, 5]
+    // Initial card positions
     useEffect(() => {
         if (typeof window !== "undefined") {
             gsap.set(cardRefs.current[order[2]], { left: width / 2 - width * 0.22 / 2, bottom: distanceFromEdgeBottomM, rotation: 0 });
@@ -45,7 +50,10 @@ function CardCarousel({ className }: Props) {
             gsap.set(cardRefs.current[order[0]], { left: offscreenDistanceFromEdgeLR, bottom: offscreenDistanceFromEdgeBottom, rotation: -18, transformOrigin: "left 50%" });
             gsap.set(cardRefs.current[order[4]], { right: offscreenDistanceFromEdgeLR, bottom: offscreenDistanceFromEdgeBottom, rotation: 18, transformOrigin: "right 50%" });
         }
+        // animateButtonRight();
     }, [width])
+
+
 
     const animateButtonRight = () => {
         console.log('run animation')
@@ -57,6 +65,7 @@ function CardCarousel({ className }: Props) {
                 console.log(cardRefs.current)
             }
         })
+
             .set(buttonRef.current, { disabled: true })
             .to(cardRefs.current[order[3]], { left: "", right: offscreenDistanceFromEdgeLR, bottom: offscreenDistanceFromEdgeBottom, rotation: 18, duration: 1.0, ease: Power3.easeInOut, transformOrigin: "right 50%" })
             .set(cardRefs.current[order[3]], { left: offscreenDistanceFromEdgeLR, right: "", bottom: offscreenDistanceFromEdgeBottom, rotation: -18, transformOrigin: "left 50%" })
@@ -78,13 +87,28 @@ function CardCarousel({ className }: Props) {
         onError
     }
 
+    const editorStateRef = useRef<EditorState>();
+
 
 
     const [readOnly, setReadOnly] = useState(false)
 
+    interface ReadOnlyProps {
+        isReadOnly: boolean
+    }
+    function MakeReadOnly({ isReadOnly }: ReadOnlyProps) {
+        const [editor] = useLexicalComposerContext();
+        useEffect(() => {
+            editor.setReadOnly(isReadOnly)
+        },
+            [isReadOnly])
+        return null;
+    }
 
     // 0 is reserved for the temporary index
     const cardIdx = [1, 2, 3, 4, 5]
+
+
 
 
     return (
@@ -94,7 +118,7 @@ function CardCarousel({ className }: Props) {
             {cardIdx.map((cardI) => {
                 return (
 
-                    <div key={cardI} ref={el => cardRefs.current[cardI] = el} className={styles.card}>
+                    <div ref={el => cardRefs.current[cardI] = el} className={styles.card}>
                         <h1 className={styles.cardTitle}>Card {cardI}</h1>
 
                         <LexicalComposer initialConfig={initialConfig}>
@@ -105,15 +129,11 @@ function CardCarousel({ className }: Props) {
                                 />
                                 <LexicalOnChangePlugin onChange={editorState => editorRefs.current[cardI] = editorState} />
                                 <HistoryPlugin />
-                                {/* <MakeReadOnly isReadOnly={readOnly} /> */}
-
+                                <MakeReadOnly isReadOnly={readOnly} />
                             </div>
                         </LexicalComposer>
-
                     </div>
-
                 );
-
             })
 
             }
