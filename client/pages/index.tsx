@@ -18,8 +18,8 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <Navbar/>
-        <CardCarousel/>
-        {/* <SampleCard/> */}
+        {/* <CardCarousel/> */}
+        <SampleCard/>
         {/* <CardAnim/> */}
       </main>
 
