@@ -16,7 +16,7 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import LexicalOnChangePlugin from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useArrayDivRef, useArrayEditorRef } from "@hooks/useArrayRef";
-// import MakeReadOnly from "./MakeReadOnly";
+// import MakeReadOnly from "@components/plugins/MakeReadOnly";
 
 
 export type Props = {
@@ -27,53 +27,127 @@ function CardCarousel({ className }: Props) {
 
     const [cardRefs] = useArrayDivRef()
     const [editorRefs] = useArrayEditorRef();
+    const editorStateRef = useRef<EditorState>();
+
+
     let width = useWindowSize();
     const buttonRef = useRef<HTMLButtonElement>(null);
-    // const [order, setOrder] = useState([4, 2, 1, 3, 5])
-    const [order, setOrder] = useState([2, 1, 3, 5, 4])
 
-    const distanceFromEdgeBottomM = "-40%";
+    const distanceFromEdgeBottomM = "-30%";
     const distanceFromEdgeLR = "5%";
-    const distanceFromEdgeBottomLR = "-50%";
-    const offscreenDistanceFromEdgeBottom = "-70%";
+    const distanceFromEdgeBottomLR = "-40%";
+    const offscreenDistanceFromEdgeBottom = "-50%";
     const offscreenDistanceFromEdgeLR = "-20%";
 
+    const [motion, setMotion] = useState(0);
 
 
     // [4, 2, 1, 3, 5]
     // Initial card positions
     useEffect(() => {
+
+
         if (typeof window !== "undefined") {
-            gsap.set(cardRefs.current[order[2]], { left: width / 2 - width * 0.22 / 2, bottom: distanceFromEdgeBottomM, rotation: 0 });
-            gsap.set(cardRefs.current[order[1]], { left: distanceFromEdgeLR, bottom: distanceFromEdgeBottomLR, rotation: -9, transformOrigin: "left 50%" });
-            gsap.set(cardRefs.current[order[3]], { right: distanceFromEdgeLR, bottom: distanceFromEdgeBottomLR, rotation: 9, transformOrigin: "right 50%" });
-            gsap.set(cardRefs.current[order[0]], { left: offscreenDistanceFromEdgeLR, bottom: offscreenDistanceFromEdgeBottom, rotation: -18, transformOrigin: "left 50%" });
-            gsap.set(cardRefs.current[order[4]], { right: offscreenDistanceFromEdgeLR, bottom: offscreenDistanceFromEdgeBottom, rotation: 18, transformOrigin: "right 50%" });
+
+            gsap.set(cardRefs.current[0],
+                {
+                    left: "",
+                    right: distanceFromEdgeLR,
+                    bottom: distanceFromEdgeBottomLR,
+                    rotation: 9,
+                    transformOrigin: "center"
+                });
+            gsap.set(cardRefs.current[1],
+                {
+                    left: "",
+                    right: offscreenDistanceFromEdgeLR,
+                    bottom: offscreenDistanceFromEdgeBottom,
+                    rotation: 18,
+                    transformOrigin: "center"
+                });
+            gsap.set(cardRefs.current[2],
+                {
+                    left: offscreenDistanceFromEdgeLR,
+                    bottom: offscreenDistanceFromEdgeBottom,
+                    rotation: -18,
+                    transformOrigin: "center"
+                });
+
+
+            gsap.set(cardRefs.current[3],
+                {
+                    left: distanceFromEdgeLR,
+                    bottom: distanceFromEdgeBottomLR,
+                    rotation: -9,
+                    transformOrigin: "center"
+                });
+            gsap.set(cardRefs.current[4],
+                {
+                    left: "",
+                    right: width / 2 - width * 0.22 / 2,
+                    bottom: distanceFromEdgeBottomM,
+                    rotation: 0,
+                    transformOrigin: "center"
+                });
         }
         // animateButtonRight();
     }, [width])
 
 
+    // Pass in the 
+    function getMotion(movement: number) {
 
-    const animateButtonRight = () => {
-        console.log('run animation')
-        gsap.timeline({
-            onComplete: () => {
-                let newOrder: number[] = order;
-                newOrder.unshift(newOrder.pop()!);
-                setOrder(newOrder)
-                console.log(cardRefs.current)
+        let motion = [
+            // Right to Off Right 
+            {
+                left: "",
+                right: offscreenDistanceFromEdgeLR,
+                bottom: offscreenDistanceFromEdgeBottom,
+                rotation: 18,
+                duration: 1.0,
+                ease: Power3.easeInOut,
+            },
+            // Off Right to Off Left
+            {
+                left: offscreenDistanceFromEdgeLR,
+                right: "",
+                bottom: offscreenDistanceFromEdgeBottom,
+                rotation: -18,
+            },
+            // Off Left To Left
+            {
+                right: "",
+                left: distanceFromEdgeLR,
+                bottom: distanceFromEdgeBottomLR,
+                rotation: -9,
+                duration: 1.0,
+                ease: Power3.easeInOut,
+            },
+            // Left to Middle
+            {
+                left: "",
+                right: width / 2 - width * 0.22 / 2,
+                bottom: distanceFromEdgeBottomM,
+                rotation: 0,
+                duration: 1.0,
+                ease: Power3.easeInOut,
+            },
+            // Middle to Right
+            {
+                left: "",
+                right: distanceFromEdgeLR,
+                bottom: distanceFromEdgeBottomLR,
+                rotation: 9,
+                duration: 1.0,
+                ease: Power3.easeInOut,
             }
-        })
+        ]
 
-            .set(buttonRef.current, { disabled: true })
-            .to(cardRefs.current[order[3]], { left: "", right: offscreenDistanceFromEdgeLR, bottom: offscreenDistanceFromEdgeBottom, rotation: 18, duration: 1.0, ease: Power3.easeInOut, transformOrigin: "right 50%" })
-            .set(cardRefs.current[order[3]], { left: offscreenDistanceFromEdgeLR, right: "", bottom: offscreenDistanceFromEdgeBottom, rotation: -18, transformOrigin: "left 50%" })
-            .to(cardRefs.current[order[2]], { left: "", right: distanceFromEdgeLR, bottom: distanceFromEdgeBottomLR, rotation: 9, duration: 1.0, ease: Power3.easeInOut, transformOrigin: "right 50%", delay: 0.1 }, 0)
-            .to(cardRefs.current[order[1]], { right: "", left: width / 2 - width * 0.22 / 2, bottom: distanceFromEdgeBottomM, rotation: 0, duration: 1.0, ease: Power3.easeInOut, delay: 0.2 }, 0)
-            .to(cardRefs.current[order[0]], { right: "", left: distanceFromEdgeLR, bottom: distanceFromEdgeBottomLR, rotation: -9, duration: 1.0, ease: Power3.easeInOut, delay: 0.3, transformOrigin: "left 50%" }, 0)
-            .set(buttonRef.current, { disabled: false })
+        return motion[movement];
+
+
     }
+
 
 
     const theme = {}
@@ -87,7 +161,6 @@ function CardCarousel({ className }: Props) {
         onError
     }
 
-    const editorStateRef = useRef<EditorState>();
 
 
 
@@ -106,19 +179,85 @@ function CardCarousel({ className }: Props) {
     }
 
     // 0 is reserved for the temporary index
-    const cardIdx = [1, 2, 3, 4, 5]
+    const cardIdx = [0, 1, 2, 3, 4]
 
+    function animateButtonRight() {
+        // Default position
+        if (motion == 0) {
+            gsap.timeline()
+                .to(cardRefs.current[0], getMotion(0), 0)
+                .set(cardRefs.current[1], getMotion(1), 0)
+                .to(cardRefs.current[2], getMotion(2), 0)
+                .to(cardRefs.current[3], getMotion(3), 0)
+                .to(cardRefs.current[4], getMotion(4), 0)
+
+
+            setMotion(1)
+        }
+        if (motion == 1) {
+            gsap.timeline()
+                .to(cardRefs.current[4], getMotion(0), 0)
+                .set(cardRefs.current[0], getMotion(1), 0)
+                .to(cardRefs.current[1], getMotion(2), 0)
+                .to(cardRefs.current[2], getMotion(3), 0)
+                .to(cardRefs.current[3], getMotion(4), 0)
+
+
+            setMotion(2)
+        }
+        if (motion == 2) {
+            gsap.timeline()
+                .to(cardRefs.current[3], getMotion(0), 0)
+                .set(cardRefs.current[4], getMotion(1), 0)
+                .to(cardRefs.current[0], getMotion(2), 0)
+                .to(cardRefs.current[1], getMotion(3), 0)
+                .to(cardRefs.current[2], getMotion(4), 0)
+
+
+            setMotion(3)
+        }
+        if (motion == 3) {
+            gsap.timeline()
+                .to(cardRefs.current[2], getMotion(0), 0)
+                .set(cardRefs.current[3], getMotion(1), 0)
+                .to(cardRefs.current[4], getMotion(2), 0)
+                .to(cardRefs.current[0], getMotion(3), 0)
+                .to(cardRefs.current[1], getMotion(4), 0)
+
+
+            setMotion(4)
+        }
+        if (motion == 4) {
+            gsap.timeline()
+                .to(cardRefs.current[1], getMotion(0), 0)
+                .set(cardRefs.current[2], getMotion(1), 0)
+                .to(cardRefs.current[3], getMotion(2), 0)
+                .to(cardRefs.current[4], getMotion(3), 0)
+                .to(cardRefs.current[0], getMotion(4), 0)
+
+
+            setMotion(0)
+        }
+
+
+
+
+    }
 
 
 
     return (
         <div className={classnames(styles.CardCarousel, className)}>
-            <button ref={buttonRef} onClick={animateButtonRight}>Move</button>
-            <button onClick={() => console.log(JSON.stringify(editorRefs.current[order[2]]))}>Get State</button>
+            <button ref={buttonRef} onClick={() => {
+                animateButtonRight();
+
+
+            }}>Move</button>
+            {/* <button onClick={() => console.log(JSON.stringify(editorStateRef.current))}>Get State</button> */}
             {cardIdx.map((cardI) => {
                 return (
 
-                    <div ref={el => cardRefs.current[cardI] = el} className={styles.card}>
+                    <div ref={ref => cardRefs.current[cardI] = ref} className={styles.card}>
                         <h1 className={styles.cardTitle}>Card {cardI}</h1>
 
                         <LexicalComposer initialConfig={initialConfig}>
