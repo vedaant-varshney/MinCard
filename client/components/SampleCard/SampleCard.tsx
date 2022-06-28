@@ -112,8 +112,6 @@ function SampleCard({ className }: Props) {
 
                     </div>
                 </LexicalComposer>
-                {/* <button onClick={() => console.log(JSON.stringify(editorStateRef.current))}>Submit</button>
-            <button onClick={() => setReadOnly(!readOnly)}>Read-Only</button> */}
                 <div className={styles.sideButtons}>
                     <div onClick={() => setReadOnly(!readOnly)} className={styles.blackButton}>
                         <EditIcon className={styles.buttonIcons} />
