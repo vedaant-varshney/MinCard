@@ -163,6 +163,7 @@ function CardCarousel({ className }: Props) {
                 .set(buttonRef.current, { disabled: false })
 
             setMotionRight(2)
+            setMotionLeft(3)
         }
         if (motionRight == 2) {
             titles[2] = allTitles[animRightIdx];
@@ -177,6 +178,7 @@ function CardCarousel({ className }: Props) {
                 .set(buttonRef.current, { disabled: false })
 
             setMotionRight(3)
+            setMotionLeft(2)
         }
         if (motionRight == 3) {
             titles[1] = allTitles[animRightIdx];
@@ -191,6 +193,7 @@ function CardCarousel({ className }: Props) {
                 .set(buttonRef.current, { disabled: false })
 
             setMotionRight(4)
+            setMotionLeft(1)
         }
         if (motionRight == 4) {
             titles[0] = allTitles[animRightIdx];
@@ -205,6 +208,7 @@ function CardCarousel({ className }: Props) {
                 .set(buttonRef.current, { disabled: false })
 
             setMotionRight(0)
+            setMotionLeft(0)
         }
     }
 
@@ -224,6 +228,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[4], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
             setMotionLeft(1);
+            setMotionRight(4)
         }
         if (motionLeft == 1) {
             titles[1] = allTitles[animLeftIdx];
@@ -237,6 +242,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[0], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
             setMotionLeft(2);
+            setMotionRight(3);
         }
         if (motionLeft == 2) {
             titles[2] = allTitles[animLeftIdx];
@@ -250,6 +256,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[1], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
             setMotionLeft(3);
+            setMotionRight(2);
         }
         if (motionLeft == 3) {
             titles[3] = allTitles[animLeftIdx];
@@ -263,6 +270,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[2], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
             setMotionLeft(4);
+            setMotionRight(1);
         }
         if (motionLeft == 4) {
             titles[4] = allTitles[animLeftIdx];
@@ -276,6 +284,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[3], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
             setMotionLeft(0);
+            setMotionRight(0);
         }
 
     }
