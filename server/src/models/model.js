@@ -19,19 +19,19 @@ const user = new mongoose.Schema({
         contentType: String   
     },
     created_at: {
-        required: true,
+        // required: true,
         type: Date
     },
     deck_ids: {
         required: true, 
-        type:[Number]
+        type:[String]
     }
 })
 
 const deck = new mongoose.Schema({
     deck_id: {
         required: true,
-        type: Number
+        type: String
     },
     user_id: {
         required: true,
@@ -41,28 +41,28 @@ const deck = new mongoose.Schema({
         required: true,
         type: String
     },
-    created_at: {
+    description: {
         required: true,
+        type: String
+    },
+    created_at: {
+        // required: true,
         type: Date
     },
     card_ids: {
         required: true,
-        type: [Number]
+        type: [String]
     }
 })
 
 const card = new mongoose.Schema({
     card_id: {
         required: true,
-        type: Number
+        type: String
     },
     deck_id: {
         required: true,
-        type: Number
-    },
-    user_id: {
-        required: true,
-        type: Number
+        type: String
     },
     title: {
         required: true,
@@ -73,8 +73,8 @@ const card = new mongoose.Schema({
         type: String
     },
     created_at: {
-        required: true,
-        type: String
+        // required: true,
+        type: Date
     },
     editor_state: {
         required: true,
@@ -83,7 +83,7 @@ const card = new mongoose.Schema({
 })
 
 module.exports = {
-    user: mongoose.model('User', user),
-    deck: mongoose.model('Deck', deck),
-    card: mongoose.model('Card', card)
+    User: mongoose.model('User', user),
+    Deck: mongoose.model('Deck', deck),
+    Card: mongoose.model('Card', card)
   }
