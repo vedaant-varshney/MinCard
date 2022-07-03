@@ -87,4 +87,14 @@
         bottom: 35vh;
     }
 
+    .up {
+        left: calc(50vw - 24.5px);
+        top: 40vh;
+    }
+
+    .down {
+        left: calc(50vw - 24.5px);
+        bottom: 0vh;
+    }
+
 }

@@ -6,7 +6,7 @@ import { gsap, Power3 } from "gsap";
 import useWindowSize from "@hooks/useWindowSize";
 
 
-import { $getRoot, $getSelection, EditorState, LexicalEditor } from 'lexical';
+import { $getRoot, $getSelection, EditorState, LexicalEditor, ParsedEditorState } from 'lexical';
 
 import LexicalComposer from '@lexical/react/LexicalComposer';
 import RichTextPlugin from '@lexical/react/LexicalRichTextPlugin'
@@ -29,18 +29,18 @@ function CardCarousel({ className }: Props) {
 
     let cards = deck.cards;
     const [cardRefs] = useArrayDivRef()
-    const [editorRefs] = useArrayEditorRef();
-    const [motion, setMotion] = useState(0);
+    const editorRef = useRef<EditorState>();
     const [motionLeft, setMotionLeft] = useState(0);
     const [motionRight, setMotionRight] = useState(0);
     const [readOnly, setReadOnly] = useState(false)
     const [cardTitles, setCardTitles] = useState([""])
     const [allTitles, setAllTitles] = useState([""])
-    const [animRightIdx, setAnimRightIdx] = useState(cards.length - 1)
-    const [animLeftIdx, setAnimLeftIdx] = useState(5)
     const [centerIdx, setCenterIdx] = useState(2);
+    const [cardCenter, setCardCenter] = useState(2);
+    const editorCardRef = useRef<HTMLDivElement>(null);
 
     const cardIdx = [0, 1, 2, 3, 4];
+    const [activeEditor, setActiveEditor] = useState(false)
 
 
     let width = useWindowSize();
@@ -74,38 +74,7 @@ function CardCarousel({ className }: Props) {
     }
 
 
-    const theme = {}
-    function onError(error: any) {
-        console.error(error);
-    }
 
-    const initialConfig = {
-        theme,
-        onError
-    }
-
-    function newIndexRight(prevOffLeft: number) {
-        let newInd = prevOffLeft - 1
-        if (newInd < 0) newInd = cards.length - 1;
-
-        let newLeft = animLeftIdx - 2;
-        newLeft = newLeft % cards.length;
-        setAnimLeftIdx(newLeft);
-
-        return newInd;
-    }
-
-    function newIndexLeft(prevOffRight: number) {
-        let newInd = prevOffRight + 1
-
-        let newRight = animRightIdx + 2;
-        newRight = newRight % cards.length;
-        setAnimRightIdx(newRight);
-
-        if (newInd > cards.length - 1) newInd = 0;
-        return newInd;
-
-    }
 
     function newIndex(centerIdx: number, dir: string) {
 
@@ -113,13 +82,11 @@ function CardCarousel({ className }: Props) {
         if (dir == "left") {
             let center = (cards.length + centerIdx + 1) % cards.length;
             setCenterIdx(center);
-            newIdx =  (cards.length + center + 2) % cards.length;
+            newIdx = (cards.length + center + 2) % cards.length;
             console.log(newIdx)
-
-
         }
         else if (dir == "right") {
-            let center = (cards.length+ centerIdx - 1) % cards.length;
+            let center = (cards.length + centerIdx - 1) % cards.length;
             newIdx = (cards.length + center - 2) % cards.length;
             console.log(newIdx)
             setCenterIdx(center);
@@ -147,6 +114,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[0], getMotion(2), 0.3)
                 .set(buttonRef.current, { disabled: false })
 
+            setCardCenter(1)
             setMotionRight(1)
             setMotionLeft(4)
         }
@@ -162,6 +130,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[4], getMotion(2), 0.3)
                 .set(buttonRef.current, { disabled: false })
 
+            setCardCenter(0)
             setMotionRight(2)
             setMotionLeft(3)
         }
@@ -177,6 +146,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[3], getMotion(2), 0.3)
                 .set(buttonRef.current, { disabled: false })
 
+            setCardCenter(4)
             setMotionRight(3)
             setMotionLeft(2)
         }
@@ -192,6 +162,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[2], getMotion(2), 0.3)
                 .set(buttonRef.current, { disabled: false })
 
+            setCardCenter(3)
             setMotionRight(4)
             setMotionLeft(1)
         }
@@ -207,6 +178,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[1], getMotion(2), 0.3)
                 .set(buttonRef.current, { disabled: false })
 
+            setCardCenter(2)
             setMotionRight(0)
             setMotionLeft(0)
         }
@@ -227,6 +199,8 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[3], getMotionLeft(3), 0.2)
                 .to(cardRefs.current[4], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
+
+            setCardCenter(3)
             setMotionLeft(1);
             setMotionRight(4)
         }
@@ -241,6 +215,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[4], getMotionLeft(3), 0.2)
                 .to(cardRefs.current[0], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
+            setCardCenter(4)
             setMotionLeft(2);
             setMotionRight(3);
         }
@@ -255,6 +230,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[0], getMotionLeft(3), 0.2)
                 .to(cardRefs.current[1], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
+            setCardCenter(0)
             setMotionLeft(3);
             setMotionRight(2);
         }
@@ -269,6 +245,7 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[1], getMotionLeft(3), 0.2)
                 .to(cardRefs.current[2], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
+            setCardCenter(1)
             setMotionLeft(4);
             setMotionRight(1);
         }
@@ -283,53 +260,105 @@ function CardCarousel({ className }: Props) {
                 .to(cardRefs.current[2], getMotionLeft(3), 0.2)
                 .to(cardRefs.current[3], getMotionLeft(4), 0.3)
                 .set(buttonRef.current, { disabled: false })
+            setCardCenter(2)
             setMotionLeft(0);
             setMotionRight(0);
         }
 
     }
 
+    function animateDown() {
 
+    }
 
     function animateUp() {
-        // Index of center 
-        let center = Math.abs(motion - 4)
-        // Updating left recenters card with new width
-        gsap.to(cardRefs.current[center], { left: "37.5vw", bottom: "10%", width: "25vw", duration: 1.2, ease: Power3.easeInOut })
+        setActiveEditor(!activeEditor)
+        // Index of center
+        if (!activeEditor) {
+            gsap.timeline()
+                .to(cardRefs.current[cardCenter], { left: "37.5vw", bottom: "10%", width: "25vw", duration: 1, ease: Power3.easeInOut })
+                .to(editorCardRef.current, { autoAlpha: 1, duration: 0.5, }, 1.2)
+            // .to(cardRefs.current[cardCenter], { autoAlpha: 0, duration: 1, zIndex: 10 }, 1.2)
+        }
+        else {
+            gsap.timeline()
+                .to(editorCardRef.current, { autoAlpha: 0, duration: 0.5 })
+                .to(cardRefs.current[cardCenter], { left: "39vw", bottom: "-30%", width: "22vw", duration: 1, ease: Power3.easeInOut })
+
+        }
     }
 
     function getState() {
-        console.log(JSON.stringify(editorRefs.current[Math.abs(motion - 4)]));
+        console.log(JSON.stringify(editorRef.current));
     }
 
+
+    const theme = {}
+    function onError(error: any) {
+        console.error(error);
+    }
+
+
+
+    function EditorManagement() {
+        const [editor] = useLexicalComposerContext();
+        useEffect(() => {
+            let editorState = cards[centerIdx].editorState
+            editor.setEditorState(editor.parseEditorState(editorState));
+
+        }, [centerIdx])
+
+        return null;
+    }
+
+    useEffect(() => {
+        gsap.timeline()
+            .set(editorCardRef.current, { zIndex: 10, autoAlpha: 0, left: "37.5vw", bottom: "10%", width: "25vw" })
+    }, [])
 
 
     return (
         <div className={classnames(styles.CardCarousel, className)}>
-            <Arrow className={classnames(styles.arrow, styles.right)} onClick={animateButtonRight} orientationX={-1} />
-            <Arrow className={classnames(styles.arrow, styles.left)} onClick={animateButtonLeft} orientationX={1} />
+            {activeEditor &&
+                <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.down)} vertical={true} orientation={3} />
+            }
+            {!activeEditor &&
+                <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.up)} vertical={true} orientation={1} />
+            }
+            <Arrow className={classnames(styles.arrow, styles.right)} vertical={false} onClick={animateButtonRight} orientation={-1} />
+            <Arrow className={classnames(styles.arrow, styles.left)} vertical={false} onClick={animateButtonLeft} orientation={1} />
             <button ref={buttonRef} onClick={animateButtonRight}>Move</button>
             <button onClick={getState}>Get State</button>
-            <button onClick={animateUp}>Animate Up</button>
+            <button onClick={animateUp}>Animate {activeEditor ? "Down" : "Up"}</button>
+            {/* <button onClick={animateUp}>Animate Down</button> */}
+
+            {/* TODO: Separate Editor into new component */}
+            <div ref={editorCardRef} className={styles.card}>
+                <h1 className={styles.cardTitle}>Card {centerIdx}</h1>
+                <LexicalComposer initialConfig={{ theme: theme, onError: onError }}>
+                    <div className={styles.editor}>
+                        <EditorManagement />
+                        <RichTextPlugin
+                            placeholder={<div className={styles.placeholder}>Click on the card and start typing!</div>}
+                            contentEditable={<LexicalContentEditable className={styles.editorInput} />}
+                        />
+                        <LexicalOnChangePlugin onChange={editorState => editorRef.current = editorState} />
+                        <HistoryPlugin />
+                        <MakeReadOnly isReadOnly={readOnly} />
+                    </div>
+                </LexicalComposer>
+            </div>
             {cardIdx.map((cardI) => {
                 return (
                     <div key={cardI} ref={ref => cardRefs.current[cardI] = ref} className={styles.card}>
                         <h1 className={styles.cardTitle}>{cardTitles[cardI]}</h1>
-                        <LexicalComposer initialConfig={initialConfig}>
-                            <div className={styles.editor}>
-                                <RichTextPlugin
-                                    placeholder={<div className={styles.placeholder}>Click on the card and start typing!</div>}
-                                    contentEditable={<LexicalContentEditable className={styles.editorInput} />}
-                                />
-                                <LexicalOnChangePlugin onChange={editorState => editorRefs.current[cardI] = editorState} />
-                                <HistoryPlugin />
-                                <MakeReadOnly isReadOnly={readOnly} />
+                        <div className={styles.editor}>
+                            <div className={styles.editorInput}>
                             </div>
-                        </LexicalComposer>
+                        </div>
                     </div>
                 );
             })
-
             }
         </div>
     )
