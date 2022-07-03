@@ -12,6 +12,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 
 import EditIcon from '@assets/images/pen-to-square-solid.svg';
 import SaveIcon from '@assets/images/floppy-disk-solid.svg';
+import MakeReadOnly from "@components/plugins/MakeReadOnly";
 
 import styles from './SampleCard.module.scss';
 
@@ -20,19 +21,19 @@ const theme = {
 }
 
 
-interface ReadOnlyProps {
-    isReadOnly: boolean
-}
+// interface ReadOnlyProps {
+//     isReadOnly: boolean
+// }
 
-function MakeReadOnly({ isReadOnly }: ReadOnlyProps) {
+// function MakeReadOnly({ isReadOnly }: ReadOnlyProps) {
 
-    const [editor] = useLexicalComposerContext();
-    useEffect(() => {
-        editor.setReadOnly(isReadOnly)
-    },
-        [isReadOnly])
-    return null;
-}
+//     const [editor] = useLexicalComposerContext();
+//     useEffect(() => {
+//         editor.setReadOnly(isReadOnly)
+//     },
+//         [isReadOnly])
+//     return null;
+// }
 // Lexical React plugins are React components, which makes them
 // highly composable. Furthermore, you can lazy load plugins if
 // desired, so you don't pay the cost for plugins until you
@@ -111,8 +112,6 @@ function SampleCard({ className }: Props) {
 
                     </div>
                 </LexicalComposer>
-                {/* <button onClick={() => console.log(JSON.stringify(editorStateRef.current))}>Submit</button>
-            <button onClick={() => setReadOnly(!readOnly)}>Read-Only</button> */}
                 <div className={styles.sideButtons}>
                     <div onClick={() => setReadOnly(!readOnly)} className={styles.blackButton}>
                         <EditIcon className={styles.buttonIcons} />
@@ -123,22 +122,6 @@ function SampleCard({ className }: Props) {
                 </div>
             </div>
 
-            {/* <div className={classnames(styles.SampleCard, className)}>
-                <h1 className={styles.cardTitle}>Card Title</h1>
-                <LexicalComposer initialConfig={initialConfig}>
-                    <div className={styles.editor}>
-                        <RichTextPlugin
-                            placeholder={<Placeholder />}
-                            contentEditable={<LexicalContentEditable className={styles.editorInput} />}
-                        />
-                        <LexicalOnChangePlugin onChange={editorState => editorStateRef.current = editorState} />
-                        <HistoryPlugin />
-                        <MyCustomAutoFocusPlugin />
-                        <UpdateEditorState editorState={editorSample} />
-
-                    </div>
-                </LexicalComposer>
-            </div> */}
 
 
         </>

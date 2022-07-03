@@ -1,6 +1,15 @@
 @import '../../styles/vars.scss';
+@import '../../styles/typography.scss';
 
 .CardCarousel {
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    // Replace 60px with eventual navbar height
+    height: calc(100% - 60px);
+    overflow-y: hidden;
+    overflow-x: hidden;
+
     .card {
         position: absolute;
         // left: calc(1080px/2 + 500px/2);
@@ -13,7 +22,79 @@
         align-items: center;
         background-color: $white;
         border: 1px solid rgba(0, 0, 0, 0.06);
-        
+
+    }
+
+    h1 {
+        margin-bottom: 0;
+    }
+
+    .editor {
+        text-align: left;
+        margin: auto;
+        width: 90%;
+        aspect-ratio: 5 / 6.75;
+        border: 2px solid rgba(0, 0, 0, 0.06);
+        border-radius: 20px;
+    }
+
+
+    .editorInput {
+        height: 100%;
+        margin: auto;
+        width: 95%;
+        border: none;
+        resize: none;
+        outline-width: 0;
+        overflow: hidden;
+        @include editor-text($color: $black);
+
+    }
+
+    .placeholder {
+        position: absolute;
+        text-align: center;
+        width: 90%;
+        // height: 10%;
+        top: 50%;
+        @include editor-text($color: $black);
+    }
+
+    .cardTitle {
+        position: relative;
+        width: 90%;
+        text-align: left;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1rem;
+        margin-bottom: 0.75rem;
+        left: 0.5rem;
+
+        @include card-heading($color: $black);
+    }
+
+    .arrow {
+        position: absolute;
+    }
+
+    .left {
+        left: 7vw;
+        bottom: 35vh;
+    }
+
+    .right {
+        right: 7vw;
+        bottom: 35vh;
+    }
+
+    .up {
+        left: calc(50vw - 24.5px);
+        top: 40vh;
+    }
+
+    .down {
+        left: calc(50vw - 24.5px);
+        bottom: 0vh;
     }
 
 }
