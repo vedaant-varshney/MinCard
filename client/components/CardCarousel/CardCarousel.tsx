@@ -6,24 +6,15 @@ import { gsap, Power3 } from "gsap";
 import useWindowSize from "@hooks/useWindowSize";
 
 
-import { $getRoot, $getSelection, EditorState, LexicalEditor, ParsedEditorState } from 'lexical';
+import { EditorState } from 'lexical';
 
-import LexicalComposer from '@lexical/react/LexicalComposer';
-import RichTextPlugin from '@lexical/react/LexicalRichTextPlugin'
-import LexicalContentEditable from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import LexicalOnChangePlugin from '@lexical/react/LexicalOnChangePlugin';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { useArrayDivRef, useArrayEditorRef } from "@hooks/useArrayRef";
-import MakeReadOnly from "@components/plugins/MakeReadOnly";
+import { useArrayDivRef } from "@hooks/useArrayRef";
 
 import { deck } from "@data/sample-deck";
 import Arrow from "@components/Arrow/Arrow";
 import { initialPos, getMotionHelper, animateButtonRight, animateButtonLeft } from "./helpers";
 import LeftWindow from "@components/LeftWindow/LeftWindow";
 import RightWindow from "@components/RightWindow/RightWindow";
-import EditIcon from '@assets/images/pen-to-square-solid.svg';
-import SaveIcon from '@assets/images/floppy-disk-solid.svg';
 import MainEditor from "@components/MainEditor/MainEditor";
 
 export type Props = {
@@ -57,15 +48,10 @@ function CardCarousel({ className }: Props) {
 
     useEffect(() => {
         let cardTitlesInit: string[] = [];
-        let allTitlesInit: string[] = [];
         for (let i = 0; i < 5; ++i) {
             cardTitlesInit[i] = cards[i].title;
         }
-        for (let i = 0; i < cards.length; ++i) {
-            allTitlesInit[i] = cards[i].title
-        }
         setCardTitles(cardTitlesInit);
-        setAllTitles(allTitlesInit)
 
         // add deck to dependencies
     }, [deck])
@@ -82,9 +68,6 @@ function CardCarousel({ className }: Props) {
         return getMotionHelper(movement, width, true);
 
     }
-
-
-
 
     function newIndex(centerIdx: number, dir: string) {
 
@@ -106,7 +89,6 @@ function CardCarousel({ className }: Props) {
 
 
     }
-
 
     const animateRight = () => animateButtonRight(cardTitles, newIndex, centerIdx, motionRight, allTitles, setCardTitles, buttonRef, cardRefs, getMotion, setCardCenter, setMotionLeft, setMotionRight);
     const animateLeft = () => animateButtonLeft(cardTitles, newIndex, centerIdx, motionLeft, allTitles, setCardTitles, buttonRef, cardRefs, getMotionLeft, setCardCenter, setMotionLeft, setMotionRight);
@@ -149,18 +131,6 @@ function CardCarousel({ className }: Props) {
         }
     }
 
-    function getState() {
-        console.log(JSON.stringify(editorRef.current));
-    }
-
-
-    const theme = {}
-    function onError(error: any) {
-        console.error(error);
-    }
-
-
-
 
     useEffect(() => {
         gsap.timeline()
@@ -184,7 +154,7 @@ function CardCarousel({ className }: Props) {
             <Arrow ref={arrowLeftRef} className={classnames(styles.arrow, styles.left)} vertical={false} onClick={animateLeft} orientation={1} />
 
             {/* TODO: Separate Editor into new component */}
-            <MainEditor ref={editorCardRef} centerIdx={centerIdx} readOnly={readOnly} setReadOnly={setReadOnly} cards={cards} editorRef={editorRef}/>
+            <MainEditor ref={editorCardRef} centerIdx={centerIdx} readOnly={readOnly} setReadOnly={setReadOnly} cards={cards} editorRef={editorRef} />
             {cardIdx.map((cardI) => {
                 return (
                     <div key={cardI} ref={ref => cardRefs.current[cardI] = ref} className={styles.card}>

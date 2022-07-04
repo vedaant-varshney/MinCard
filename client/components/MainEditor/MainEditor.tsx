@@ -47,7 +47,7 @@ const MainEditor = forwardRef(({ className, centerIdx, readOnly, setReadOnly, ca
     return (
         <div  className={classnames(styles.MainEditor, className)}>
             <div ref={ref} className={styles.card}>
-                <h1 className={styles.cardTitle}>Card {centerIdx}</h1>
+                <h1 className={styles.cardTitle}>{cards[centerIdx].title}</h1>
                 <LexicalComposer initialConfig={{ theme: theme, onError: onError }}>
                     <div className={styles.editor}>
                         <EditorManagement />

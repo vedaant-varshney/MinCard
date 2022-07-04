@@ -6,72 +6,72 @@ const deck = {
     userId: "fa23c9",
     cards: [
         {
-            title: "Card 0",
+            title: "Apple 0",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card one!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 1",
+            title: "Orange 1",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card two!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 2",
+            title: "Peach 2",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card three!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 3",
+            title: "Apricot 3",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card four!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 4",
+            title: "Acorn 4",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card five!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 5",
+            title: "Strawberry 5",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card six!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 6",
+            title: "Blueberry 6",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card seven!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 7",
+            title: "Tangerine 7",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card eight!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 8",
+            title: "Cherry 8",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card nine!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 9",
+            title: "Grape 9",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card ten!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 10",
+            title: "Kiwi 10",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card eleven!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 11",
+            title: "Clementine 11",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card twelve!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 12",
+            title: "Coconut 12",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card thirteen!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
         {
-            title: "Card 13",
+            title: "Dragonfruit 13",
             cardId: "c102ed",
             editorState: { "_nodeMap": [["root", { "__children": ["11"], "__dir": "ltr", "__format": 0, "__indent": 0, "__key": "root", "__parent": null, "__type": "root" }], ["11", { "__type": "paragraph", "__parent": "root", "__key": "11", "__children": ["15"], "__format": 0, "__indent": 0, "__dir": "ltr" }], ["15", { "__type": "text", "__parent": "11", "__key": "15", "__text": "Here is a sample editor state to use for card fourteen!", "__format": 0, "__style": "", "__mode": 0, "__detail": 0 }]], "_selection": { "anchor": { "key": "15", "offset": 37, "type": "text" }, "focus": { "key": "15", "offset": 37, "type": "text" }, "type": "range" } }
         },
