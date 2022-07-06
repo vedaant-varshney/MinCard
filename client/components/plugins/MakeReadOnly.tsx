@@ -1,5 +1,5 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 
 interface ReadOnlyProps {
     isReadOnly: boolean
@@ -7,7 +7,7 @@ interface ReadOnlyProps {
 
 
 
-export default function MakeReadOnly({ isReadOnly }: ReadOnlyProps) {
+function MakeReadOnly({ isReadOnly }: ReadOnlyProps) {
 
     const [editor] = useLexicalComposerContext();
     useEffect(() => {
@@ -16,3 +16,5 @@ export default function MakeReadOnly({ isReadOnly }: ReadOnlyProps) {
         [isReadOnly])
     return null;
 }
+
+export default memo(MakeReadOnly);
