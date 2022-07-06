@@ -48,10 +48,15 @@ function CardCarousel({ className }: Props) {
 
     useEffect(() => {
         let cardTitlesInit: string[] = [];
+        let allTitlesInit: string[] = [];
         for (let i = 0; i < 5; ++i) {
             cardTitlesInit[i] = cards[i].title;
         }
+        for (let i = 0; i < cards.length; ++i) {
+            allTitlesInit[i] = cards[i].title;
+        }
         setCardTitles(cardTitlesInit);
+        setAllTitles(allTitlesInit);
 
         // add deck to dependencies
     }, [deck])
