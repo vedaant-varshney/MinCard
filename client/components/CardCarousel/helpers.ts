@@ -1,6 +1,8 @@
 // This file can be used later to shorten code in CardCarousel
 
+import { useAppDispatch } from '@hooks/reduxHooks';
 import { gsap, Power3 } from 'gsap';
+
 
 const distanceFromEdgeBottomM = "-30%";
 const distanceFromEdgeLR = "5%";
@@ -135,6 +137,7 @@ function getMotionHelper(movement: number, width: number, left: boolean) {
 }
 
 function animateButtonLeft(cardTitles: string[], newIndex: any, centerIdx: number, motionLeft: number, allTitles: string[], setCardTitles: any, buttonRef: any, cardRefs: any, getMotionLeft: any, setCardCenter: any, setMotionLeft: any, setMotionRight: any) {
+
     let titles = cardTitles;
     let animLeftIdx = newIndex(centerIdx, "left")!;
 

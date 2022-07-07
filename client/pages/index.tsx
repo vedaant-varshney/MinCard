@@ -6,8 +6,16 @@ import SampleCard from '@components/SampleCard/SampleCard'
 import CardAnim from '@components/CardAnim/CardAnim'
 import Navbar from '@components/Navbar/Navbar'
 import CardCarousel from '@components/CardCarousel/CardCarousel'
+import { useState } from 'react'
+import { Deck } from 'types/deck'
+import { DeckCtx } from 'redux/deckContext'
 
 const Home: NextPage = () => {
+
+  const [deck, setDeck] = useState<Deck>(null);
+
+
+
   return (
     <div >
       <Head>
@@ -16,12 +24,16 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <Navbar/>
-        <CardCarousel/>
-        {/* <SampleCard/> */}
-        {/* <CardAnim/> */}
-      </main>
+      <DeckCtx.Provider value={[ deck, setDeck ]}>
+        <main className={styles.main}>
+          <Navbar />
+          <CardCarousel />
+          {/* <SampleCard/> */}
+          {/* <CardAnim/> */}
+        </main>
+
+
+      </DeckCtx.Provider>
 
       <footer >
       </footer>

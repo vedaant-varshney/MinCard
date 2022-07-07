@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState, useContext } from "react";
 import classnames from 'classnames';
 
 import styles from './CardCarousel.module.scss'
@@ -7,15 +7,17 @@ import useWindowSize from "@hooks/useWindowSize";
 
 
 import { EditorState } from 'lexical';
-
 import { useArrayDivRef } from "@hooks/useArrayRef";
-
-import { deck } from "@data/sample-deck";
+import { Deck } from "types/deck";
+import { importDeck }  from "@data/sample-deck";
 import Arrow from "@components/Arrow/Arrow";
 import { initialPos, getMotionHelper, animateButtonRight, animateButtonLeft } from "./helpers";
 import LeftWindow from "@components/LeftWindow/LeftWindow";
 import RightWindow from "@components/RightWindow/RightWindow";
 import MainEditor from "@components/MainEditor/MainEditor";
+
+import { useAppSelector, useAppDispatch } from "@hooks/reduxHooks";
+import { DeckCtx } from "redux/deckContext";
 
 export type Props = {
     className?: string;
@@ -23,40 +25,62 @@ export type Props = {
 
 function CardCarousel({ className }: Props) {
 
-    let cards = deck.cards;
-    const [cardRefs] = useArrayDivRef()
-    const editorRef = useRef<EditorState>();
+    const cardIdx = [0, 1, 2, 3, 4];
+
+
+
+    // States
     const [motionLeft, setMotionLeft] = useState(0);
     const [motionRight, setMotionRight] = useState(0);
-    const [readOnly, setReadOnly] = useState(true)
+    const [readOnly, setReadOnly] = useState(false)
     const [cardTitles, setCardTitles] = useState([""])
     const [allTitles, setAllTitles] = useState([""])
+    // Idx of Center el in entire deck
     const [centerIdx, setCenterIdx] = useState(2);
+    // Idx of center with respect to 5 cards
     const [cardCenter, setCardCenter] = useState(2);
+    const [activeEditor, setActiveEditor] = useState(false)
+
+    // Refs
     const editorCardRef = useRef<HTMLDivElement>(null);
     const arrowLeftRef = useRef<HTMLDivElement>(null);
     const arrowRightRef = useRef<HTMLDivElement>(null);
     const windowLeftRef = useRef<HTMLDivElement>(null);
     const windowRightRef = useRef<HTMLDivElement>(null);
+    const editorRef = useRef<EditorState>();
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const [cardRefs] = useArrayDivRef()
 
-    const cardIdx = [0, 1, 2, 3, 4];
-    const [activeEditor, setActiveEditor] = useState(false)
+
+
+    // Redux 
+    const dispatch = useAppDispatch();
+    // const deck: Deck  = useAppSelector((state) => state.deck);
+    const [deck, setDeck] = useContext(DeckCtx)
+
 
 
     let width = useWindowSize();
-    const buttonRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-        let cardTitlesInit: string[] = [];
-        let allTitlesInit: string[] = [];
-        for (let i = 0; i < 5; ++i) {
-            cardTitlesInit[i] = cards[i].title;
+        if (deck !== null && deck !== undefined) {
+            console.log(deck);
+            // let cards = deck.cards;
+            let cardTitlesInit: string[] = [];
+            let allTitlesInit: string[] = [];
+            for (let i = 0; i < 5; ++i) {
+                cardTitlesInit[i] = deck.cards[i].title;
+            }
+            for (let i = 0; i < deck.cards.length; ++i) {
+                allTitlesInit[i] = deck.cards[i].title;
+            }
+            setCardTitles(cardTitlesInit);
+            setAllTitles(allTitlesInit);
+
+
         }
-        for (let i = 0; i < cards.length; ++i) {
-            allTitlesInit[i] = cards[i].title;
-        }
-        setCardTitles(cardTitlesInit);
-        setAllTitles(allTitlesInit);
+
+
 
         // add deck to dependencies
     }, [deck])
@@ -71,10 +95,10 @@ function CardCarousel({ className }: Props) {
 
     function getMotionLeft(movement: number) {
         return getMotionHelper(movement, width, true);
-
     }
 
     function newIndex(centerIdx: number, dir: string) {
+        let cards = deck.cards;
 
         let newIdx;
         if (dir == "left") {
@@ -101,8 +125,6 @@ function CardCarousel({ className }: Props) {
 
     function animateUp() {
         setActiveEditor(!activeEditor)
-        // Index of center
-
 
         if (!activeEditor) {
 
@@ -136,44 +158,50 @@ function CardCarousel({ className }: Props) {
         }
     }
 
-
     useEffect(() => {
+        // Sets the initial deck and states based on API requests
+        // dispatch(setDeck(importDeck));
+        setDeck(importDeck)
+
+
+        // Sets the initial state for the editor and side windows
         gsap.timeline()
             .set(editorCardRef.current, { zIndex: 10, autoAlpha: 0, left: "37.5vw", bottom: "10%", width: "25vw" })
             .set(windowLeftRef.current, { x: "-20vw" })
             .set(windowRightRef.current, { x: "20vw" })
-    }, [])
+    }, [deck])
 
+        return (
+            <div className={classnames(styles.CardCarousel, className)}>
+                <LeftWindow ref={windowLeftRef} />
+                <RightWindow ref={windowRightRef} />
+                {activeEditor &&
+                    <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.down)} vertical={true} orientation={3} />
+                }
+                {!activeEditor &&
+                    <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.up)} vertical={true} orientation={1} />
+                }
+                <Arrow ref={arrowRightRef} className={classnames(styles.arrow, styles.right)} vertical={false} onClick={animateRight} orientation={-1} />
+                <Arrow ref={arrowLeftRef} className={classnames(styles.arrow, styles.left)} vertical={false} onClick={animateLeft} orientation={1} />
 
-    return (
-        <div className={classnames(styles.CardCarousel, className)}>
-            <LeftWindow ref={windowLeftRef} />
-            <RightWindow ref={windowRightRef} />
-            {activeEditor &&
-                <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.down)} vertical={true} orientation={3} />
-            }
-            {!activeEditor &&
-                <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.up)} vertical={true} orientation={1} />
-            }
-            <Arrow ref={arrowRightRef} className={classnames(styles.arrow, styles.right)} vertical={false} onClick={animateRight} orientation={-1} />
-            <Arrow ref={arrowLeftRef} className={classnames(styles.arrow, styles.left)} vertical={false} onClick={animateLeft} orientation={1} />
+                <MainEditor ref={editorCardRef} centerIdx={centerIdx} readOnly={readOnly} setReadOnly={setReadOnly}  editorRef={editorRef} />
 
-            {/* TODO: Separate Editor into new component */}
-            <MainEditor ref={editorCardRef} centerIdx={centerIdx} readOnly={readOnly} setReadOnly={setReadOnly} cards={cards} editorRef={editorRef} />
-            {cardIdx.map((cardI) => {
-                return (
-                    <div key={cardI} ref={ref => cardRefs.current[cardI] = ref} className={styles.card}>
-                        <h1 className={styles.cardTitle}>{cardTitles[cardI]}</h1>
-                        <div className={styles.editor}>
-                            <div className={styles.editorInput}>
+                {cardIdx.map((cardI) => {
+                    return (
+                        <div key={cardI} ref={ref => cardRefs.current[cardI] = ref} className={styles.card}>
+                            <h1 className={styles.cardTitle}>{cardTitles[cardI]}</h1>
+                            <div className={styles.editor}>
+                                <div className={styles.editorInput}>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                );
-            })
-            }
-        </div>
-    )
+                    );
+                })
+                }
+            </div>
+        )
+
+
 }
 
 export default memo(CardCarousel);
