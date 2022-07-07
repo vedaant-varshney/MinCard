@@ -1,7 +1,7 @@
 // This file can be used later to shorten code in CardCarousel
 
-import { useAppDispatch } from '@hooks/reduxHooks';
 import { gsap, Power3 } from 'gsap';
+import { setCarouselCardTitles, setCarouselCenterIdx, setMotionLeft, setMotionRight } from 'redux/store';
 
 
 const distanceFromEdgeBottomM = "-30%";
@@ -136,14 +136,18 @@ function getMotionHelper(movement: number, width: number, left: boolean) {
 
 }
 
-function animateButtonLeft(cardTitles: string[], newIndex: any, centerIdx: number, motionLeft: number, allTitles: string[], setCardTitles: any, buttonRef: any, cardRefs: any, getMotionLeft: any, setCardCenter: any, setMotionLeft: any, setMotionRight: any) {
+function animateButtonLeft(dispatch: any, carouselCardTitles: string[], allCardTitles: string[], newIndex: any, deckCenterIdx: number, motionLeft: number,  buttonRef: any, cardRefs: any, getMotionLeft: any) {
 
-    let titles = cardTitles;
-    let animLeftIdx = newIndex(centerIdx, "left")!;
+    let titles: string[] = [];
+    for (let i in carouselCardTitles) {
+        titles[i] = carouselCardTitles[i];
+    }
+    let animLeftIdx = newIndex(deckCenterIdx, "left")!;
 
     if (motionLeft == 0) {
-        titles[0] = allTitles[animLeftIdx];
-        setCardTitles(titles)
+        titles[0] = allCardTitles[animLeftIdx];
+        dispatch(setCarouselCardTitles(titles))
+
 
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
@@ -154,13 +158,13 @@ function animateButtonLeft(cardTitles: string[], newIndex: any, centerIdx: numbe
             .to(cardRefs.current[4], getMotionLeft(4), 0.3)
             .set(buttonRef.current, { disabled: false })
 
-        setCardCenter(3)
-        setMotionLeft(1);
-        setMotionRight(4)
+        dispatch(setCarouselCenterIdx(3));
+        dispatch(setMotionLeft(1));
+        dispatch(setMotionRight(4));
     }
     if (motionLeft == 1) {
-        titles[1] = allTitles[animLeftIdx];
-        setCardTitles(titles)
+        titles[1] = allCardTitles[animLeftIdx];
+        dispatch(setCarouselCardTitles(titles))
 
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
@@ -170,13 +174,13 @@ function animateButtonLeft(cardTitles: string[], newIndex: any, centerIdx: numbe
             .to(cardRefs.current[4], getMotionLeft(3), 0.2)
             .to(cardRefs.current[0], getMotionLeft(4), 0.3)
             .set(buttonRef.current, { disabled: false })
-        setCardCenter(4)
-        setMotionLeft(2);
-        setMotionRight(3);
+        dispatch(setCarouselCenterIdx(4));
+        dispatch(setMotionLeft(2));
+        dispatch(setMotionRight(3));
     }
     if (motionLeft == 2) {
-        titles[2] = allTitles[animLeftIdx];
-        setCardTitles(titles)
+        titles[2] = allCardTitles[animLeftIdx];
+        dispatch(setCarouselCardTitles(titles))
 
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
@@ -186,13 +190,13 @@ function animateButtonLeft(cardTitles: string[], newIndex: any, centerIdx: numbe
             .to(cardRefs.current[0], getMotionLeft(3), 0.2)
             .to(cardRefs.current[1], getMotionLeft(4), 0.3)
             .set(buttonRef.current, { disabled: false })
-        setCardCenter(0)
-        setMotionLeft(3);
-        setMotionRight(2);
+        dispatch(setCarouselCenterIdx(0));
+        dispatch(setMotionLeft(3));
+        dispatch(setMotionRight(2));
     }
     if (motionLeft == 3) {
-        titles[3] = allTitles[animLeftIdx];
-        setCardTitles(titles)
+        titles[3] = allCardTitles[animLeftIdx];
+        dispatch(setCarouselCardTitles(titles))
 
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
@@ -202,13 +206,13 @@ function animateButtonLeft(cardTitles: string[], newIndex: any, centerIdx: numbe
             .to(cardRefs.current[1], getMotionLeft(3), 0.2)
             .to(cardRefs.current[2], getMotionLeft(4), 0.3)
             .set(buttonRef.current, { disabled: false })
-        setCardCenter(1)
-        setMotionLeft(4);
-        setMotionRight(1);
+        dispatch(setCarouselCenterIdx(1));
+        dispatch(setMotionLeft(4));
+        dispatch(setMotionRight(1));
     }
     if (motionLeft == 4) {
-        titles[4] = allTitles[animLeftIdx];
-        setCardTitles(titles)
+        titles[4] = allCardTitles[animLeftIdx];
+        dispatch(setCarouselCardTitles(titles))
 
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
@@ -218,20 +222,24 @@ function animateButtonLeft(cardTitles: string[], newIndex: any, centerIdx: numbe
             .to(cardRefs.current[2], getMotionLeft(3), 0.2)
             .to(cardRefs.current[3], getMotionLeft(4), 0.3)
             .set(buttonRef.current, { disabled: false })
-        setCardCenter(2)
-        setMotionLeft(0);
-        setMotionRight(0);
+        dispatch(setCarouselCenterIdx(2));
+        dispatch(setMotionLeft(0));
+        dispatch(setMotionRight(0));
     }
 
 }
 
-function animateButtonRight(cardTitles: string[], newIndex: any, centerIdx: number, motionRight: number, allTitles: string[], setCardTitles: any, buttonRef: any, cardRefs: any, getMotion: any, setCardCenter: any, setMotionLeft: any, setMotionRight: any) {
-    let titles = cardTitles;
-    let animRightIdx = newIndex(centerIdx, "right")!;
+function animateButtonRight(dispatch: any, carouselCardTitles: string[], allCardTitles: string[], newIndex: any, deckCenterIdx: number, motionRight: number, buttonRef: any, cardRefs: any, getMotion: any) {
+
+    let titles: string[] = [];
+    for (let i in carouselCardTitles) {
+        titles[i] = carouselCardTitles[i];
+    }
+    let animRightIdx = newIndex(deckCenterIdx, "right")!;
 
     if (motionRight == 0) {
-        titles[4] = allTitles[animRightIdx];
-        setCardTitles(titles)
+        titles[4] = allCardTitles[animRightIdx];
+        dispatch(setCarouselCardTitles(titles))
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
             .set(cardRefs.current[4], getMotion(1))
@@ -241,13 +249,13 @@ function animateButtonRight(cardTitles: string[], newIndex: any, centerIdx: numb
             .to(cardRefs.current[0], getMotion(2), 0.3)
             .set(buttonRef.current, { disabled: false })
 
-        setCardCenter(1)
-        setMotionRight(1)
-        setMotionLeft(4)
+        dispatch(setCarouselCenterIdx(1))
+        dispatch(setMotionRight(1))
+        dispatch(setMotionLeft(4))
     }
     if (motionRight == 1) {
-        titles[3] = allTitles[animRightIdx];
-        setCardTitles(titles)
+        titles[3] = allCardTitles[animRightIdx];
+        dispatch(setCarouselCardTitles(titles))
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
             .set(cardRefs.current[3], getMotion(1))
@@ -257,13 +265,13 @@ function animateButtonRight(cardTitles: string[], newIndex: any, centerIdx: numb
             .to(cardRefs.current[4], getMotion(2), 0.3)
             .set(buttonRef.current, { disabled: false })
 
-        setCardCenter(0)
-        setMotionRight(2)
-        setMotionLeft(3)
+        dispatch(setCarouselCenterIdx(0))
+        dispatch(setMotionRight(2))
+        dispatch(setMotionLeft(3))
     }
     if (motionRight == 2) {
-        titles[2] = allTitles[animRightIdx];
-        setCardTitles(titles)
+        titles[2] = allCardTitles[animRightIdx];
+        dispatch(setCarouselCardTitles(titles))
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
             .set(cardRefs.current[2], getMotion(1))
@@ -273,13 +281,13 @@ function animateButtonRight(cardTitles: string[], newIndex: any, centerIdx: numb
             .to(cardRefs.current[3], getMotion(2), 0.3)
             .set(buttonRef.current, { disabled: false })
 
-        setCardCenter(4)
-        setMotionRight(3)
-        setMotionLeft(2)
+        dispatch(setCarouselCenterIdx(4));
+        dispatch(setMotionRight(3));
+        dispatch(setMotionLeft(2));
     }
     if (motionRight == 3) {
-        titles[1] = allTitles[animRightIdx];
-        setCardTitles(titles)
+        titles[1] = allCardTitles[animRightIdx];
+        dispatch(setCarouselCardTitles(titles))
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
             .set(cardRefs.current[1], getMotion(1))
@@ -289,13 +297,13 @@ function animateButtonRight(cardTitles: string[], newIndex: any, centerIdx: numb
             .to(cardRefs.current[2], getMotion(2), 0.3)
             .set(buttonRef.current, { disabled: false })
 
-        setCardCenter(3)
-        setMotionRight(4)
-        setMotionLeft(1)
+        dispatch(setCarouselCenterIdx(3))
+        dispatch(setMotionRight(4))
+        dispatch(setMotionLeft(1))
     }
     if (motionRight == 4) {
-        titles[0] = allTitles[animRightIdx];
-        setCardTitles(titles)
+        titles[0] = allCardTitles[animRightIdx];
+        dispatch(setCarouselCardTitles(titles))
         gsap.timeline()
             .set(buttonRef.current, { disabled: true })
             .set(cardRefs.current[0], getMotion(1))
@@ -305,9 +313,9 @@ function animateButtonRight(cardTitles: string[], newIndex: any, centerIdx: numb
             .to(cardRefs.current[1], getMotion(2), 0.3)
             .set(buttonRef.current, { disabled: false })
 
-        setCardCenter(2)
-        setMotionRight(0)
-        setMotionLeft(0)
+        dispatch(setCarouselCenterIdx(2))
+        dispatch(setMotionRight(0))
+        dispatch(setMotionLeft(0))
     }
 }
 

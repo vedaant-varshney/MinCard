@@ -1,20 +1,22 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { EditorState } from 'lexical'
-import { Deck } from 'types/deck'
 
 interface stateInterface {
-    carouselCenterIdx: number
-    deckCenterIdx: number
-    carouselCardTitles: string[]
-    allCardTitles: string[]
-    carouselCardDescriptions: string[]
-    allCardDescriptions: string[]
+    carouselCenterIdx: number;
+    deckCenterIdx: number;
+    motionLeft: number;
+    motionRight: number;
+    carouselCardTitles: string[];
+    allCardTitles: string[];
+    carouselCardDescriptions: string[];
+    allCardDescriptions: string[];
 
 }
 
 const initialState: stateInterface = {
     carouselCenterIdx: 2,
     deckCenterIdx: 2,
+    motionLeft: 0,
+    motionRight: 0,
     carouselCardTitles: [''],
     allCardTitles: [''],
     carouselCardDescriptions: [''],
@@ -27,6 +29,18 @@ const { actions, reducer } = createSlice({
     name: "main",
     initialState: initialState,
     reducers: {
+        setCarouselCenterIdx(state: any, action: PayloadAction<number>) {
+            state.carouselCenterIdx = action.payload
+        },
+        setDeckCenterIdx(state: any, action: PayloadAction<number>) {
+            state.deckCenterIdx = action.payload;
+        },
+        setMotionLeft(state: any, action: PayloadAction<number>) {
+            state.motionLeft = action.payload;
+        },
+        setMotionRight(state: any, action: PayloadAction<number>) {
+            state.motionRight = action.payload;
+        },
         setCarouselCardTitles(state: any, action: PayloadAction<string[]>) {
             state.carouselCardTitles = action.payload;
         },
@@ -38,7 +52,7 @@ const { actions, reducer } = createSlice({
 
 })
 
-export const { setCarouselCardTitles, setAllCardTitles } = actions
+export const { setCarouselCardTitles, setAllCardTitles, setDeckCenterIdx, setCarouselCenterIdx, setMotionLeft, setMotionRight } = actions
 
 
 export const store = configureStore({
