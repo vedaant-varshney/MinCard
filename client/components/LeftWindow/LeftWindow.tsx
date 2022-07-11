@@ -17,6 +17,23 @@ const LeftWindow = forwardRef(({className}: Props, ref: any) => {
     return (
         <div ref={ref} className={classnames(styles.LeftWindow, className)}>
 
+            <h2>Update Title and Description</h2>
+            <form onSubmit={() => {}}>
+                <label htmlFor="title">Title:</label>
+                <br/>
+                <input type="text" id="title" name="title"/>
+                <br/>
+                <label htmlFor="description">Description:</label>
+                <br/>
+                <input type="text" id="description" name="description"/>
+                <br/>
+
+                <button type="submit">Update Title/Description</button>
+
+
+            </form>
+
+
 
         </div>
     );

@@ -8,8 +8,7 @@ import useWindowSize from "@hooks/useWindowSize";
 
 import { EditorState } from 'lexical';
 import { useArrayDivRef } from "@hooks/useArrayRef";
-import { Deck } from "types/deck";
-import { importDeck }  from "@data/sample-deck";
+import { importDeck } from "@data/sample-deck";
 import Arrow from "@components/Arrow/Arrow";
 import { initialPos, getMotionHelper, animateButtonRight, animateButtonLeft } from "./helpers";
 import LeftWindow from "@components/LeftWindow/LeftWindow";
@@ -18,8 +17,7 @@ import MainEditor from "@components/MainEditor/MainEditor";
 
 import { useAppSelector, useAppDispatch } from "@hooks/reduxHooks";
 import { DeckCtx } from "redux/deckContext";
-import { setAllCardTitles, setCarouselCardTitles, setDeckCenterIdx } from "redux/store";
-import all from "gsap/all";
+import { setAllCardTitles, setCarouselCardTitles, setDeckCenterIdx, setAllCardDescriptions, setCarouselCardDescriptions } from "redux/store";
 
 export type Props = {
     className?: string;
@@ -32,15 +30,7 @@ function CardCarousel({ className }: Props) {
 
 
     // States
-    // const [motionLeft, setMotionLeft] = useState(0);
-    // const [motionRight, setMotionRight] = useState(0);
-    const [readOnly, setReadOnly] = useState(false)
-    // const [cardTitles, setCardTitles] = useState([""])
-    // const [allTitles, setAllTitles] = useState([""])
-    // Idx of Center el in entire deck
-    // const [centerIdx, setCenterIdx] = useState(2);
-    // Idx of center with respect to 5 cards
-    // const [cardCenter, setCardCenter] = useState(2);
+    // const [readOnly, setReadOnly] = useState(false)
     const [activeEditor, setActiveEditor] = useState(false)
 
     // Refs
@@ -60,7 +50,10 @@ function CardCarousel({ className }: Props) {
     const allCardTitles = useAppSelector((state) => state.allCardTitles)
     const carouselCardTitles = useAppSelector((state) => state.carouselCardTitles)
     const carouselCenterIdx = useAppSelector((state) => state.carouselCenterIdx)
+    const carouselCardDescriptions = useAppSelector((state) => state.carouselCardDescriptions)
+    const allCardDescriptions = useAppSelector((state) => state.allCardDescriptions)
     const deckCenterIdx = useAppSelector((state) => state.deckCenterIdx)
+
     const motionLeft = useAppSelector((state) => state.motionLeft)
     const motionRight = useAppSelector((state) => state.motionRight)
     // const deck: Deck  = useAppSelector((state) => state.deck);
@@ -76,16 +69,21 @@ function CardCarousel({ className }: Props) {
             // let cards = deck.cards;
             let cardTitlesInit: string[] = [];
             let allTitlesInit: string[] = [];
+            let cardDescriptionsInit: string[] = [];
+            let allDescriptionsInit: string[] = [];
+
             for (let i = 0; i < 5; ++i) {
                 cardTitlesInit[i] = deck.cards[i].title;
+                cardDescriptionsInit[i] = deck.cards[i].description;
             }
             for (let i = 0; i < deck.cards.length; ++i) {
                 allTitlesInit[i] = deck.cards[i].title;
+                allDescriptionsInit[i] = deck.cards[i].description;
             }
             dispatch(setCarouselCardTitles(cardTitlesInit))
             dispatch(setAllCardTitles(allTitlesInit))
-            // setCardTitles(cardTitlesInit);
-            // setAllTitles(allTitlesInit);
+            dispatch(setCarouselCardDescriptions(cardDescriptionsInit))
+            dispatch(setAllCardDescriptions(allDescriptionsInit))
 
 
         }
@@ -99,14 +97,17 @@ function CardCarousel({ className }: Props) {
         initialPos(cardRefs, width);
     }, [width])
 
+
+    // TODO: move to helpers
     function getMotion(movement: number) {
         return getMotionHelper(movement, width, false);
     }
-
+    // TODO: move to helpers
     function getMotionLeft(movement: number) {
         return getMotionHelper(movement, width, true);
     }
 
+    // TODO: move to helpers
     function newIndex(deckCenterIdx: number, dir: string) {
         let cards = deck.cards;
 
@@ -129,10 +130,11 @@ function CardCarousel({ className }: Props) {
 
     }
 
+    // TODO: put all card-specific info (title/description/etc) in a singular object
     const animateRight = () => animateButtonRight(dispatch, carouselCardTitles, allCardTitles, newIndex, deckCenterIdx, motionRight, buttonRef, cardRefs, getMotion);
     const animateLeft = () => animateButtonLeft(dispatch, carouselCardTitles, allCardTitles, newIndex, deckCenterIdx, motionLeft, buttonRef, cardRefs, getMotionLeft);
 
-
+    // TODO: move to helpers
     function animateUp() {
         setActiveEditor(!activeEditor)
 
@@ -169,8 +171,8 @@ function CardCarousel({ className }: Props) {
     }
 
     useEffect(() => {
-        // Sets the initial deck and states based on API requests
-        // dispatch(setDeck(importDeck));
+        // Sets the initial deck and states based on API requests 
+        // TODO: Put this at a higher level so everything loads before the cards render
         setDeck(importDeck)
 
 
@@ -181,35 +183,36 @@ function CardCarousel({ className }: Props) {
             .set(windowRightRef.current, { x: "20vw" })
     }, [deck])
 
-        return (
-            <div className={classnames(styles.CardCarousel, className)}>
-                <LeftWindow ref={windowLeftRef} />
-                <RightWindow ref={windowRightRef} />
-                {activeEditor &&
-                    <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.down)} vertical={true} orientation={3} />
-                }
-                {!activeEditor &&
-                    <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.up)} vertical={true} orientation={1} />
-                }
-                <Arrow ref={arrowRightRef} className={classnames(styles.arrow, styles.right)} vertical={false} onClick={animateRight} orientation={-1} />
-                <Arrow ref={arrowLeftRef} className={classnames(styles.arrow, styles.left)} vertical={false} onClick={animateLeft} orientation={1} />
+    return (
+        <div className={classnames(styles.CardCarousel, className)}>
+            <LeftWindow ref={windowLeftRef} />
+            <RightWindow ref={windowRightRef} />
+            {activeEditor &&
+                <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.down)} vertical={true} orientation={3} />
+            }
+            {!activeEditor &&
+                <Arrow onClick={animateUp} className={classnames(styles.arrow, styles.up)} vertical={true} orientation={1} />
+            }
+            <Arrow ref={arrowRightRef} className={classnames(styles.arrow, styles.right)} vertical={false} onClick={animateRight} orientation={-1} />
+            <Arrow ref={arrowLeftRef} className={classnames(styles.arrow, styles.left)} vertical={false} onClick={animateLeft} orientation={1} />
 
-                <MainEditor ref={editorCardRef} centerIdx={deckCenterIdx} readOnly={readOnly} setReadOnly={setReadOnly}  editorRef={editorRef} />
+            <MainEditor ref={editorCardRef} centerIdx={deckCenterIdx} editorRef={editorRef} />
 
-                {cardIdx.map((cardI) => {
-                    return (
-                        <div key={cardI} ref={ref => cardRefs.current[cardI] = ref} className={styles.card}>
-                            <h1 className={styles.cardTitle}>{carouselCardTitles[cardI]}</h1>
-                            <div className={styles.editor}>
-                                <div className={styles.editorInput}>
-                                </div>
+            {cardIdx.map((cardI) => {
+                return (
+                    <div key={cardI} ref={ref => cardRefs.current[cardI] = ref} className={styles.card}>
+                        <h1 className={styles.cardTitle}>{carouselCardTitles[cardI]}</h1>
+                        <div className={styles.editor}>
+                            <div className={styles.editorInput}>
+                                <p>{carouselCardDescriptions[cardI]}</p>
                             </div>
                         </div>
-                    );
-                })
-                }
-            </div>
-        )
+                    </div>
+                );
+            })
+            }
+        </div>
+    )
 
 
 }

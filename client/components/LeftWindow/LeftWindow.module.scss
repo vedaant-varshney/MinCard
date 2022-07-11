@@ -9,4 +9,12 @@
     background-color: $white;
     filter: drop-shadow(0px 4px 4px $shadow);
     // z-index: 10;
+
+    h2 {
+        margin: 1rem;
+    }
+
+    form {
+        margin: 1rem;
+    }
 }

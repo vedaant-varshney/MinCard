@@ -9,6 +9,7 @@ interface stateInterface {
     allCardTitles: string[];
     carouselCardDescriptions: string[];
     allCardDescriptions: string[];
+    readOnly: boolean;
 
 }
 
@@ -20,7 +21,8 @@ const initialState: stateInterface = {
     carouselCardTitles: [''],
     allCardTitles: [''],
     carouselCardDescriptions: [''],
-    allCardDescriptions: ['']
+    allCardDescriptions: [''],
+    readOnly: false
 
 }
 
@@ -46,13 +48,25 @@ const { actions, reducer } = createSlice({
         },
         setAllCardTitles(state: any, action: PayloadAction<string[]>) {
             state.allCardTitles = action.payload;
+        },
+        setReadOnly(state: any, action: PayloadAction<boolean>) {
+            state.readOnly = action.payload;
+        },
+        setCarouselCardDescriptions(state: any, action: PayloadAction<string[]>) {
+            state.carouselCardDescriptions = action.payload;
+
+        },
+
+        setAllCardDescriptions(state: any, action: PayloadAction<string[]>) {
+            state.allCardDescriptions = action.payload;
+
         }
 
     }
 
 })
 
-export const { setCarouselCardTitles, setAllCardTitles, setDeckCenterIdx, setCarouselCenterIdx, setMotionLeft, setMotionRight } = actions
+export const { setCarouselCardTitles, setAllCardTitles, setDeckCenterIdx, setCarouselCenterIdx, setMotionLeft, setMotionRight, setReadOnly, setAllCardDescriptions, setCarouselCardDescriptions} = actions
 
 
 export const store = configureStore({

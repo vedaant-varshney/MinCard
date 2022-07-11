@@ -13,12 +13,11 @@ import SaveIcon from '@assets/images/floppy-disk-solid.svg';
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useAppDispatch, useAppSelector } from "@hooks/reduxHooks";
 import { DeckCtx } from "redux/deckContext";
+import { setReadOnly } from "redux/store";
 
 export type Props = {
     className?: string;
     centerIdx: number;
-    readOnly: boolean;
-    setReadOnly: any;
     cards?: any;
     editorRef: any;
 }
@@ -28,15 +27,12 @@ function onError(error: any) {
     console.error(error);
 }
 
-const MainEditor = forwardRef(({ className, centerIdx, readOnly, setReadOnly, editorRef }: Props, ref: any) => {
+const MainEditor = forwardRef(({ className, centerIdx, editorRef }: Props, ref: any) => {
 
-    // const deck = useAppSelector((state) => state.deck);
     let [deck, setDeck]  = useContext(DeckCtx)
     const dispatch = useAppDispatch()
+    const readOnly = useAppSelector((state) => state.readOnly);
     let deckCopy = deck;
-
-
-    //    Object.clone 
 
     function EditorManagement() {
         const [editor] = useLexicalComposerContext();
@@ -78,7 +74,7 @@ const MainEditor = forwardRef(({ className, centerIdx, readOnly, setReadOnly, ed
                         </div>
                     </LexicalComposer>
                     <div className={styles.sideButtons}>
-                        <div onClick={() => setReadOnly(!readOnly)} className={styles.blackButton}>
+                        <div onClick={() => dispatch(setReadOnly(!readOnly))} className={styles.blackButton}>
                             <EditIcon className={styles.buttonIcons} />
                         </div>
                         <div onClick={() => { }} className={styles.blackButton}>
